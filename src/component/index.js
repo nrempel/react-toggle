@@ -23,6 +23,7 @@ export default class Toggle extends Component {
   }
 
   handleClick (event) {
+    console.log(event)
     const checkbox = this.input
     if (event.target !== checkbox) {
       event.preventDefault()
