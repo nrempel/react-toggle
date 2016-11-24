@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
 import Check from './check'
 import X from './x'
-import pointerCoord from './util'
+import { pointerCoord } from './util'
 import shallowCompare from 'react-addons-shallow-compare'
 
 export default class Toggle extends Component {

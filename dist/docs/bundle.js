@@ -21947,8 +21947,6 @@
 	
 	var _util = __webpack_require__(182);
 	
-	var _util2 = _interopRequireDefault(_util);
-	
 	var _reactAddonsShallowCompare = __webpack_require__(183);
 	
 	var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
@@ -22010,14 +22008,14 @@
 	  }, {
 	    key: 'handleTouchStart',
 	    value: function handleTouchStart(event) {
-	      this.startX = (0, _util2.default)(event).x;
+	      this.startX = (0, _util.pointerCoord)(event).x;
 	      this.activated = true;
 	    }
 	  }, {
 	    key: 'handleTouchMove',
 	    value: function handleTouchMove(event) {
 	      if (this.startX) {
-	        var currentX = (0, _util2.default)(event).x;
+	        var currentX = (0, _util.pointerCoord)(event).x;
 	
 	        if (this.state.checked) {
 	          if (currentX + 15 < this.startX) {
@@ -22040,7 +22038,7 @@
 	    key: 'handleTouchEnd',
 	    value: function handleTouchEnd(event) {
 	      if (this.startX) {
-	        var endX = (0, _util2.default)(event).x;
+	        var endX = (0, _util.pointerCoord)(event).x;
 	        if (this.checked) {
 	          if (this.startX + 4 > endX) {
 	            if (!('checked' in this.props)) {

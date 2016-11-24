@@ -26,8 +26,6 @@ var _x2 = _interopRequireDefault(_x);
 
 var _util = require('./util');
 
-var _util2 = _interopRequireDefault(_util);
-
 var _reactAddonsShallowCompare = require('react-addons-shallow-compare');
 
 var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
@@ -89,14 +87,14 @@ var Toggle = function (_Component) {
   }, {
     key: 'handleTouchStart',
     value: function handleTouchStart(event) {
-      this.startX = (0, _util2.default)(event).x;
+      this.startX = (0, _util.pointerCoord)(event).x;
       this.activated = true;
     }
   }, {
     key: 'handleTouchMove',
     value: function handleTouchMove(event) {
       if (this.startX) {
-        var currentX = (0, _util2.default)(event).x;
+        var currentX = (0, _util.pointerCoord)(event).x;
 
         if (this.state.checked) {
           if (currentX + 15 < this.startX) {
@@ -119,7 +117,7 @@ var Toggle = function (_Component) {
     key: 'handleTouchEnd',
     value: function handleTouchEnd(event) {
       if (this.startX) {
-        var endX = (0, _util2.default)(event).x;
+        var endX = (0, _util.pointerCoord)(event).x;
         if (this.checked) {
           if (this.startX + 4 > endX) {
             if (!('checked' in this.props)) {
