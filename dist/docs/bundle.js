@@ -58,9 +58,9 @@
 	
 	var _component2 = _interopRequireDefault(_component);
 	
-	__webpack_require__(184);
+	__webpack_require__(185);
 	
-	__webpack_require__(188);
+	__webpack_require__(189);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21945,7 +21945,11 @@
 	
 	var _x2 = _interopRequireDefault(_x);
 	
-	var _reactAddonsShallowCompare = __webpack_require__(182);
+	var _util = __webpack_require__(182);
+	
+	var _util2 = _interopRequireDefault(_util);
+	
+	var _reactAddonsShallowCompare = __webpack_require__(183);
 	
 	var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
 	
@@ -22006,57 +22010,52 @@
 	  }, {
 	    key: 'handleTouchStart',
 	    value: function handleTouchStart(event) {
-	      console.log('handleTouchStart', event);
-	      // this._startX = pointerCoord(ev).x;
-	      // this._activated = true;
-	      // return true;
+	      this.startX = (0, _util2.default)(event).x;
+	      this.activated = true;
 	    }
 	  }, {
 	    key: 'handleTouchMove',
 	    value: function handleTouchMove(event) {
-	      console.log('handleTouchMove', event);
-	      // if (this._startX) {
-	      //   let currentX = pointerCoord(ev).x;
-	      //   console.debug('toggle, pointerMove', ev.type, currentX);
+	      if (this.startX) {
+	        var currentX = (0, _util2.default)(event).x;
 	
-	      //   if (this._checked) {
-	      //     if (currentX + 15 < this._startX) {
-	      //       this.onChange(false);
-	      //       this._haptic.selection();
-	      //       this._startX = currentX;
-	      //       this._activated = true;
-	      //     }
-	
-	      //   } else if (currentX - 15 > this._startX) {
-	      //     this.onChange(true);
-	      //     // Create a haptic event
-	      //     this._haptic.selection();
-	      //     this._startX = currentX;
-	      //     this._activated = (currentX < this._startX + 5);
-	      //   }
-	      // }
+	        if (this.state.checked) {
+	          if (currentX + 15 < this.startX) {
+	            if (!('checked' in this.props)) {
+	              this.setState({ checked: false });
+	            }
+	            this.startX = currentX;
+	            this.activated = true;
+	          }
+	        } else if (currentX - 15 > this.startX) {
+	          if (!('checked' in this.props)) {
+	            this.setState({ checked: true });
+	          }
+	          this.startX = currentX;
+	          this.activated = currentX < this.startX + 5;
+	        }
+	      }
 	    }
 	  }, {
 	    key: 'handleTouchEnd',
 	    value: function handleTouchEnd(event) {
-	      console.log('handleTouchEnd', event);
-	      // if (this._startX) {
-	      //   let endX = pointerCoord(ev).x;
+	      if (this.startX) {
+	        var endX = (0, _util2.default)(event).x;
+	        if (this.checked) {
+	          if (this.startX + 4 > endX) {
+	            if (!('checked' in this.props)) {
+	              this.setState({ checked: false });
+	            }
+	          }
+	        } else if (this.startX - 4 < endX) {
+	          if (!('checked' in this.props)) {
+	            this.setState({ checked: true });
+	          }
+	        }
 	
-	      //   if (this.checked) {
-	      //     if (this._startX + 4 > endX) {
-	      //       this.onChange(false);
-	      //       this._haptic.selection();
-	      //     }
-	
-	      //   } else if (this._startX - 4 < endX) {
-	      //     this.onChange(true);
-	      //     this._haptic.selection();
-	      //   }
-	
-	      //   this._activated = false;
-	      //   this._startX = null;
-	      // }
+	        this.activated = false;
+	        this.startX = null;
+	      }
 	    }
 	  }, {
 	    key: 'getIcon',
@@ -22269,12 +22268,43 @@
 
 /***/ },
 /* 182 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	module.exports = __webpack_require__(183);
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.pointerCoord = pointerCoord;
+	// Copyright 2015-present Drifty Co.
+	// http://drifty.com/
+	// from: https://github.com/driftyco/ionic/blob/master/src/util/dom.ts
+	
+	function pointerCoord(event) {
+	  // get coordinates for either a mouse click
+	  // or a touch depending on the given event
+	  if (event) {
+	    var changedTouches = event.changedTouches;
+	    if (changedTouches && changedTouches.length > 0) {
+	      var touch = changedTouches[0];
+	      return { x: touch.clientX, y: touch.clientY };
+	    }
+	    var pageX = event.pageX;
+	    if (pageX !== undefined) {
+	      return { x: pageX, y: event.pageY };
+	    }
+	  }
+	  return { x: 0, y: 0 };
+	}
 
 /***/ },
 /* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(184);
+
+/***/ },
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -22303,16 +22333,16 @@
 	module.exports = shallowCompare;
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(185);
+	var content = __webpack_require__(186);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(187)(content, {});
+	var update = __webpack_require__(188)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22329,10 +22359,10 @@
 	}
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(186)();
+	exports = module.exports = __webpack_require__(187)();
 	// imports
 	
 	
@@ -22343,7 +22373,7 @@
 
 
 /***/ },
-/* 186 */
+/* 187 */
 /***/ function(module, exports) {
 
 	/*
@@ -22399,7 +22429,7 @@
 
 
 /***/ },
-/* 187 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -22651,16 +22681,16 @@
 
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(189);
+	var content = __webpack_require__(190);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(187)(content, {});
+	var update = __webpack_require__(188)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22677,10 +22707,10 @@
 	}
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(186)();
+	exports = module.exports = __webpack_require__(187)();
 	// imports
 	
 	

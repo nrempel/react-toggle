@@ -24,6 +24,10 @@ var _x = require('./x');
 
 var _x2 = _interopRequireDefault(_x);
 
+var _util = require('./util');
+
+var _util2 = _interopRequireDefault(_util);
+
 var _reactAddonsShallowCompare = require('react-addons-shallow-compare');
 
 var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
@@ -85,57 +89,52 @@ var Toggle = function (_Component) {
   }, {
     key: 'handleTouchStart',
     value: function handleTouchStart(event) {
-      console.log('handleTouchStart', event);
-      // this._startX = pointerCoord(ev).x;
-      // this._activated = true;
-      // return true;
+      this.startX = (0, _util2.default)(event).x;
+      this.activated = true;
     }
   }, {
     key: 'handleTouchMove',
     value: function handleTouchMove(event) {
-      console.log('handleTouchMove', event);
-      // if (this._startX) {
-      //   let currentX = pointerCoord(ev).x;
-      //   console.debug('toggle, pointerMove', ev.type, currentX);
+      if (this.startX) {
+        var currentX = (0, _util2.default)(event).x;
 
-      //   if (this._checked) {
-      //     if (currentX + 15 < this._startX) {
-      //       this.onChange(false);
-      //       this._haptic.selection();
-      //       this._startX = currentX;
-      //       this._activated = true;
-      //     }
-
-      //   } else if (currentX - 15 > this._startX) {
-      //     this.onChange(true);
-      //     // Create a haptic event
-      //     this._haptic.selection();
-      //     this._startX = currentX;
-      //     this._activated = (currentX < this._startX + 5);
-      //   }
-      // }
+        if (this.state.checked) {
+          if (currentX + 15 < this.startX) {
+            if (!('checked' in this.props)) {
+              this.setState({ checked: false });
+            }
+            this.startX = currentX;
+            this.activated = true;
+          }
+        } else if (currentX - 15 > this.startX) {
+          if (!('checked' in this.props)) {
+            this.setState({ checked: true });
+          }
+          this.startX = currentX;
+          this.activated = currentX < this.startX + 5;
+        }
+      }
     }
   }, {
     key: 'handleTouchEnd',
     value: function handleTouchEnd(event) {
-      console.log('handleTouchEnd', event);
-      // if (this._startX) {
-      //   let endX = pointerCoord(ev).x;
+      if (this.startX) {
+        var endX = (0, _util2.default)(event).x;
+        if (this.checked) {
+          if (this.startX + 4 > endX) {
+            if (!('checked' in this.props)) {
+              this.setState({ checked: false });
+            }
+          }
+        } else if (this.startX - 4 < endX) {
+          if (!('checked' in this.props)) {
+            this.setState({ checked: true });
+          }
+        }
 
-      //   if (this.checked) {
-      //     if (this._startX + 4 > endX) {
-      //       this.onChange(false);
-      //       this._haptic.selection();
-      //     }
-
-      //   } else if (this._startX - 4 < endX) {
-      //     this.onChange(true);
-      //     this._haptic.selection();
-      //   }
-
-      //   this._activated = false;
-      //   this._startX = null;
-      // }
+        this.activated = false;
+        this.startX = null;
+      }
     }
   }, {
     key: 'getIcon',
