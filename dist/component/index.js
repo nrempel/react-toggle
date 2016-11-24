@@ -64,7 +64,6 @@ var Toggle = function (_Component) {
   _createClass(Toggle, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      console.log(nextProps);
       if ('checked' in nextProps) {
         this.setState({ checked: !!nextProps.checked });
       }
@@ -100,6 +99,8 @@ var Toggle = function (_Component) {
           if (currentX + 15 < this.startX) {
             if (!('checked' in this.props)) {
               this.setState({ checked: false });
+            } else {
+              this.input.checked = false;
             }
             this.startX = currentX;
             this.activated = true;
@@ -107,6 +108,8 @@ var Toggle = function (_Component) {
         } else if (currentX - 15 > this.startX) {
           if (!('checked' in this.props)) {
             this.setState({ checked: true });
+          } else {
+            this.input.checked = true;
           }
           this.startX = currentX;
           this.activated = currentX < this.startX + 5;
@@ -122,11 +125,15 @@ var Toggle = function (_Component) {
           if (this.startX + 4 > endX) {
             if (!('checked' in this.props)) {
               this.setState({ checked: false });
+            } else {
+              this.input.checked = false;
             }
           }
         } else if (this.startX - 4 < endX) {
           if (!('checked' in this.props)) {
             this.setState({ checked: true });
+          } else {
+            this.input.checked = true;
           }
         }
 

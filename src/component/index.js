@@ -21,7 +21,6 @@ export default class Toggle extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log(nextProps);
     if ('checked' in nextProps) {
       this.setState({checked: !!nextProps.checked})
     }
@@ -54,6 +53,8 @@ export default class Toggle extends Component {
         if (currentX + 15 < this.startX) {
           if (!('checked' in this.props)) {
             this.setState({checked: false})
+          } else {
+            this.input.checked = false
           }
           this.startX = currentX
           this.activated = true
@@ -61,6 +62,8 @@ export default class Toggle extends Component {
       } else if (currentX - 15 > this.startX) {
         if (!('checked' in this.props)) {
           this.setState({checked: true})
+        } else {
+          this.input.checked = true
         }
         this.startX = currentX
         this.activated = (currentX < this.startX + 5)
@@ -75,11 +78,15 @@ export default class Toggle extends Component {
         if (this.startX + 4 > endX) {
           if (!('checked' in this.props)) {
             this.setState({checked: false})
+          } else {
+            this.input.checked = false
           }
         }
       } else if (this.startX - 4 < endX) {
         if (!('checked' in this.props)) {
           this.setState({checked: true})
+        } else {
+          this.input.checked = true
         }
       }
 

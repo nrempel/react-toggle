@@ -21985,7 +21985,6 @@
 	  _createClass(Toggle, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
-	      console.log(nextProps);
 	      if ('checked' in nextProps) {
 	        this.setState({ checked: !!nextProps.checked });
 	      }
@@ -22021,6 +22020,8 @@
 	          if (currentX + 15 < this.startX) {
 	            if (!('checked' in this.props)) {
 	              this.setState({ checked: false });
+	            } else {
+	              this.input.checked = false;
 	            }
 	            this.startX = currentX;
 	            this.activated = true;
@@ -22028,6 +22029,8 @@
 	        } else if (currentX - 15 > this.startX) {
 	          if (!('checked' in this.props)) {
 	            this.setState({ checked: true });
+	          } else {
+	            this.input.checked = true;
 	          }
 	          this.startX = currentX;
 	          this.activated = currentX < this.startX + 5;
@@ -22043,11 +22046,15 @@
 	          if (this.startX + 4 > endX) {
 	            if (!('checked' in this.props)) {
 	              this.setState({ checked: false });
+	            } else {
+	              this.input.checked = false;
 	            }
 	          }
 	        } else if (this.startX - 4 < endX) {
 	          if (!('checked' in this.props)) {
 	            this.setState({ checked: true });
+	          } else {
+	            this.input.checked = true;
 	          }
 	        }
 	
