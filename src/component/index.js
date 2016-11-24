@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
 import Check from './check'
 import X from './x'
+import pointerCoord from './util'
 import shallowCompare from 'react-addons-shallow-compare'
 
 export default class Toggle extends Component {
@@ -41,55 +42,50 @@ export default class Toggle extends Component {
   }
 
   handleTouchStart (event) {
-    console.log('handleTouchStart', event);
-    // this._startX = pointerCoord(ev).x;
-    // this._activated = true;
-    // return true;
+    this.startX = pointerCoord(event).x
+    this.activated = true
   }
 
   handleTouchMove (event) {
-    console.log('handleTouchMove', event);
-    // if (this._startX) {
-    //   let currentX = pointerCoord(ev).x;
-    //   console.debug('toggle, pointerMove', ev.type, currentX);
+    if (this.startX) {
+      let currentX = pointerCoord(event).x
 
-    //   if (this._checked) {
-    //     if (currentX + 15 < this._startX) {
-    //       this.onChange(false);
-    //       this._haptic.selection();
-    //       this._startX = currentX;
-    //       this._activated = true;
-    //     }
-
-    //   } else if (currentX - 15 > this._startX) {
-    //     this.onChange(true);
-    //     // Create a haptic event
-    //     this._haptic.selection();
-    //     this._startX = currentX;
-    //     this._activated = (currentX < this._startX + 5);
-    //   }
-    // }
+      if (this.state.checked) {
+        if (currentX + 15 < this.startX) {
+          if (!('checked' in this.props)) {
+            this.setState({checked: false})
+          }
+          this.startX = currentX
+          this.activated = true
+        }
+      } else if (currentX - 15 > this.startX) {
+        if (!('checked' in this.props)) {
+          this.setState({checked: true})
+        }
+        this.startX = currentX
+        this.activated = (currentX < this.startX + 5)
+      }
+    }
   }
 
   handleTouchEnd (event) {
-    console.log('handleTouchEnd', event);
-    // if (this._startX) {
-    //   let endX = pointerCoord(ev).x;
+    if (this.startX) {
+      let endX = pointerCoord(event).x
+      if (this.checked) {
+        if (this.startX + 4 > endX) {
+          if (!('checked' in this.props)) {
+            this.setState({checked: false})
+          }
+        }
+      } else if (this.startX - 4 < endX) {
+        if (!('checked' in this.props)) {
+          this.setState({checked: true})
+        }
+      }
 
-    //   if (this.checked) {
-    //     if (this._startX + 4 > endX) {
-    //       this.onChange(false);
-    //       this._haptic.selection();
-    //     }
-
-    //   } else if (this._startX - 4 < endX) {
-    //     this.onChange(true);
-    //     this._haptic.selection();
-    //   }
-
-    //   this._activated = false;
-    //   this._startX = null;
-    // }
+      this.activated = false
+      this.startX = null
+    }
   }
 
   getIcon (type) {
