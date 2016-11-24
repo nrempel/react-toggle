@@ -21,6 +21,7 @@ export default class Toggle extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    console.log(nextProps);
     if ('checked' in nextProps) {
       this.setState({checked: !!nextProps.checked})
     }
