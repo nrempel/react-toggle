@@ -47,7 +47,9 @@ var Toggle = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Toggle.__proto__ || Object.getPrototypeOf(Toggle)).call(this, props));
 
     _this.handleClick = _this.handleClick.bind(_this);
-    _this.handleTouch = _this.handleTouch.bind(_this);
+    _this.handleTouchStart = _this.handleTouchStart.bind(_this);
+    _this.handleTouchMove = _this.handleTouchMove.bind(_this);
+    _this.handleTouchEnd = _this.handleTouchEnd.bind(_this);
     _this.handleFocus = _this.setState.bind(_this, { hasFocus: true }, function () {});
     _this.handleBlur = _this.setState.bind(_this, { hasFocus: false }, function () {});
     _this.state = {
@@ -81,9 +83,59 @@ var Toggle = function (_Component) {
       }
     }
   }, {
-    key: 'handleTouch',
-    value: function handleTouch() {
-      console.log('touch');
+    key: 'handleTouchStart',
+    value: function handleTouchStart(event) {
+      console.log('handleTouchStart', event);
+      // this._startX = pointerCoord(ev).x;
+      // this._activated = true;
+      // return true;
+    }
+  }, {
+    key: 'handleTouchMove',
+    value: function handleTouchMove(event) {
+      console.log('handleTouchMove', event);
+      // if (this._startX) {
+      //   let currentX = pointerCoord(ev).x;
+      //   console.debug('toggle, pointerMove', ev.type, currentX);
+
+      //   if (this._checked) {
+      //     if (currentX + 15 < this._startX) {
+      //       this.onChange(false);
+      //       this._haptic.selection();
+      //       this._startX = currentX;
+      //       this._activated = true;
+      //     }
+
+      //   } else if (currentX - 15 > this._startX) {
+      //     this.onChange(true);
+      //     // Create a haptic event
+      //     this._haptic.selection();
+      //     this._startX = currentX;
+      //     this._activated = (currentX < this._startX + 5);
+      //   }
+      // }
+    }
+  }, {
+    key: 'handleTouchEnd',
+    value: function handleTouchEnd(event) {
+      console.log('handleTouchEnd', event);
+      // if (this._startX) {
+      //   let endX = pointerCoord(ev).x;
+
+      //   if (this.checked) {
+      //     if (this._startX + 4 > endX) {
+      //       this.onChange(false);
+      //       this._haptic.selection();
+      //     }
+
+      //   } else if (this._startX - 4 < endX) {
+      //     this.onChange(true);
+      //     this._haptic.selection();
+      //   }
+
+      //   this._activated = false;
+      //   this._startX = null;
+      // }
     }
   }, {
     key: 'getIcon',
@@ -119,9 +171,10 @@ var Toggle = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: classes,
-          onTouchStart: this.handleTouch,
           onClick: this.handleClick,
-          onTouchEnd: this.handleClick },
+          onTouchStart: this.handleTouchStart,
+          onTouchMove: this.handleTouchMove,
+          onTouchEnd: this.handleTouchEnd },
         _react2.default.createElement(
           'div',
           { className: 'react-toggle-track' },

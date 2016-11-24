@@ -8,7 +8,9 @@ export default class Toggle extends Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.handleTouch = this.handleTouch.bind(this)
+    this.handleTouchStart = this.handleTouchStart.bind(this)
+    this.handleTouchMove = this.handleTouchMove.bind(this)
+    this.handleTouchEnd = this.handleTouchEnd.bind(this)
     this.handleFocus = this.setState.bind(this, { hasFocus: true }, () => {})
     this.handleBlur = this.setState.bind(this, { hasFocus: false }, () => {})
     this.state = {
@@ -38,8 +40,56 @@ export default class Toggle extends Component {
     }
   }
 
-  handleTouch () {
-    console.log('touch')
+  handleTouchStart (event) {
+    console.log('handleTouchStart', event);
+    // this._startX = pointerCoord(ev).x;
+    // this._activated = true;
+    // return true;
+  }
+
+  handleTouchMove (event) {
+    console.log('handleTouchMove', event);
+    // if (this._startX) {
+    //   let currentX = pointerCoord(ev).x;
+    //   console.debug('toggle, pointerMove', ev.type, currentX);
+
+    //   if (this._checked) {
+    //     if (currentX + 15 < this._startX) {
+    //       this.onChange(false);
+    //       this._haptic.selection();
+    //       this._startX = currentX;
+    //       this._activated = true;
+    //     }
+
+    //   } else if (currentX - 15 > this._startX) {
+    //     this.onChange(true);
+    //     // Create a haptic event
+    //     this._haptic.selection();
+    //     this._startX = currentX;
+    //     this._activated = (currentX < this._startX + 5);
+    //   }
+    // }
+  }
+
+  handleTouchEnd (event) {
+    console.log('handleTouchEnd', event);
+    // if (this._startX) {
+    //   let endX = pointerCoord(ev).x;
+
+    //   if (this.checked) {
+    //     if (this._startX + 4 > endX) {
+    //       this.onChange(false);
+    //       this._haptic.selection();
+    //     }
+
+    //   } else if (this._startX - 4 < endX) {
+    //     this.onChange(true);
+    //     this._haptic.selection();
+    //   }
+
+    //   this._activated = false;
+    //   this._startX = null;
+    // }
   }
 
   getIcon (type) {
@@ -66,9 +116,10 @@ export default class Toggle extends Component {
 
     return (
       <div className={classes}
-        onTouchStart={this.handleTouch}
         onClick={this.handleClick}
-        onTouchEnd={this.handleClick}>
+        onTouchStart={this.handleTouchStart}
+        onTouchMove={this.handleTouchMove}
+        onTouchEnd={this.handleTouchEnd}>
         <div className='react-toggle-track'>
           <div className='react-toggle-track-check'>
             {this.getIcon('checked')}
