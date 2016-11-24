@@ -21968,6 +21968,7 @@
 	    var _this = _possibleConstructorReturn(this, (Toggle.__proto__ || Object.getPrototypeOf(Toggle)).call(this, props));
 	
 	    _this.handleClick = _this.handleClick.bind(_this);
+	    _this.handleTouch = _this.handleTouch.bind(_this);
 	    _this.handleFocus = _this.setState.bind(_this, { hasFocus: true }, function () {});
 	    _this.handleBlur = _this.setState.bind(_this, { hasFocus: false }, function () {});
 	    _this.state = {
@@ -21987,7 +21988,7 @@
 	  }, {
 	    key: 'handleClick',
 	    value: function handleClick(event) {
-	      console.log(event);
+	      console.log('click');
 	      var checkbox = this.input;
 	      if (event.target !== checkbox) {
 	        event.preventDefault();
@@ -21999,6 +22000,11 @@
 	      if (!('checked' in this.props)) {
 	        this.setState({ checked: checkbox.checked });
 	      }
+	    }
+	  }, {
+	    key: 'handleTouch',
+	    value: function handleTouch() {
+	      console.log('touch');
 	    }
 	  }, {
 	    key: 'getIcon',
@@ -22034,6 +22040,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: classes,
+	          onTouchStart: this.handleTouch,
 	          onClick: this.handleClick,
 	          onTouchEnd: this.handleClick },
 	        _react2.default.createElement(

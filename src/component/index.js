@@ -8,6 +8,7 @@ export default class Toggle extends Component {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
+    this.handleTouch = this.handleTouch.bind(this)
     this.handleFocus = this.setState.bind(this, { hasFocus: true }, () => {})
     this.handleBlur = this.setState.bind(this, { hasFocus: false }, () => {})
     this.state = {
@@ -23,7 +24,7 @@ export default class Toggle extends Component {
   }
 
   handleClick (event) {
-    console.log(event)
+    console.log('click')
     const checkbox = this.input
     if (event.target !== checkbox) {
       event.preventDefault()
@@ -35,6 +36,10 @@ export default class Toggle extends Component {
     if (!('checked' in this.props)) {
       this.setState({checked: checkbox.checked})
     }
+  }
+
+  handleTouch () {
+    console.log('touch')
   }
 
   getIcon (type) {
@@ -61,6 +66,7 @@ export default class Toggle extends Component {
 
     return (
       <div className={classes}
+        onTouchStart={this.handleTouch}
         onClick={this.handleClick}
         onTouchEnd={this.handleClick}>
         <div className='react-toggle-track'>
