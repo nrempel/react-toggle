@@ -170,7 +170,8 @@ var Toggle = function (_Component) {
           onClick: this.handleClick,
           onTouchStart: this.handleTouchStart,
           onTouchMove: this.handleTouchMove,
-          onTouchEnd: this.handleTouchEnd },
+          onTouchEnd: this.handleTouchEnd,
+          onTouchCancel: this.handleTouchEnd },
         _react2.default.createElement(
           'div',
           { className: 'react-toggle-track' },
