@@ -27,7 +27,6 @@ export default class Toggle extends Component {
   }
 
   handleClick (event) {
-    console.log('click')
     const checkbox = this.input
     if (event.target !== checkbox) {
       event.preventDefault()
@@ -71,7 +70,7 @@ export default class Toggle extends Component {
   handleTouchEnd (event) {
     if (this.startX) {
       let endX = pointerCoord(event).x
-      if (this.checked) {
+      if (this.state.checked) {
         if (this.startX + 4 > endX) {
           if (!('checked' in this.props)) {
             this.setState({checked: false})

@@ -21992,7 +21992,6 @@
 	  }, {
 	    key: 'handleClick',
 	    value: function handleClick(event) {
-	      console.log('click');
 	      var checkbox = this.input;
 	      if (event.target !== checkbox) {
 	        event.preventDefault();
@@ -22039,7 +22038,7 @@
 	    value: function handleTouchEnd(event) {
 	      if (this.startX) {
 	        var endX = (0, _util.pointerCoord)(event).x;
-	        if (this.checked) {
+	        if (this.state.checked) {
 	          if (this.startX + 4 > endX) {
 	            if (!('checked' in this.props)) {
 	              this.setState({ checked: false });
