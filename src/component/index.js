@@ -86,61 +86,6 @@ export default class Toggle extends Component {
     }
   }
 
-  handleTouchStart (event) {
-    this.startX = pointerCoord(event).x
-    this.activated = true
-  }
-
-  handleTouchMove (event) {
-    if (this.startX) {
-      let currentX = pointerCoord(event).x
-
-      if (this.state.checked) {
-        if (currentX + 15 < this.startX) {
-          if (!('checked' in this.props)) {
-            this.setState({checked: false})
-          } else {
-            this.input.checked = false
-          }
-          this.startX = currentX
-          this.activated = true
-        }
-      } else if (currentX - 15 > this.startX) {
-        if (!('checked' in this.props)) {
-          this.setState({checked: true})
-        } else {
-          this.input.checked = true
-        }
-        this.startX = currentX
-        this.activated = (currentX < this.startX + 5)
-      }
-    }
-  }
-
-  handleTouchEnd (event) {
-    if (this.startX) {
-      let endX = pointerCoord(event).x
-      if (this.state.checked) {
-        if (this.startX + 4 > endX) {
-          if (!('checked' in this.props)) {
-            this.setState({checked: false})
-          } else {
-            this.input.checked = false
-          }
-        }
-      } else if (this.startX - 4 < endX) {
-        if (!('checked' in this.props)) {
-          this.setState({checked: true})
-        } else {
-          this.input.checked = true
-        }
-      }
-
-      this.activated = false
-      this.startX = null
-    }
-  }
-
   getIcon (type) {
     const { icons } = this.props
     if (!icons) {
