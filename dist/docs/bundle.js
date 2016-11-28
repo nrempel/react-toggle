@@ -21975,6 +21975,7 @@
 	    _this.handleTouchEnd = _this.handleTouchEnd.bind(_this);
 	    _this.handleFocus = _this.setState.bind(_this, { hasFocus: true }, function () {});
 	    _this.handleBlur = _this.setState.bind(_this, { hasFocus: false }, function () {});
+	    _this.previouslyChecked = !!(props.checked || props.defaultChecked);
 	    _this.state = {
 	      checked: !!(props.checked || props.defaultChecked),
 	      hasFocus: false
@@ -21993,15 +21994,63 @@
 	    key: 'handleClick',
 	    value: function handleClick(event) {
 	      var checkbox = this.input;
-	      if (event.target !== checkbox) {
+	      if (event.target !== checkbox && !this.moved) {
+	        this.previouslyChecked = checkbox.checked;
 	        event.preventDefault();
 	        checkbox.focus();
 	        checkbox.click();
 	        return;
 	      }
 	
-	      if (!('checked' in this.props)) {
-	        this.setState({ checked: checkbox.checked });
+	      this.setState({ checked: checkbox.checked });
+	    }
+	  }, {
+	    key: 'handleTouchStart',
+	    value: function handleTouchStart(event) {
+	      this.startX = (0, _util.pointerCoord)(event).x;
+	      this.activated = true;
+	    }
+	  }, {
+	    key: 'handleTouchMove',
+	    value: function handleTouchMove(event) {
+	      if (!this.activated) return;
+	      this.moved = true;
+	
+	      if (this.startX) {
+	        var currentX = (0, _util.pointerCoord)(event).x;
+	        if (this.state.checked && currentX + 15 < this.startX) {
+	          this.setState({ checked: false });
+	          this.startX = currentX;
+	          this.activated = true;
+	        } else if (currentX - 15 > this.startX) {
+	          this.setState({ checked: true });
+	          this.startX = currentX;
+	          this.activated = currentX < this.startX + 5;
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'handleTouchEnd',
+	    value: function handleTouchEnd(event) {
+	      if (!this.moved) return;
+	      var checkbox = this.input;
+	      event.preventDefault();
+	
+	      if (this.startX) {
+	        var endX = (0, _util.pointerCoord)(event).x;
+	        if (this.previouslyChecked === true && this.startX + 4 > endX) {
+	          this.setState({ checked: false });
+	          this.previouslyChecked = this.state.checked;
+	          checkbox.click();
+	        } else if (this.startX - 4 < endX) {
+	          this.setState({ checked: true });
+	          this.previouslyChecked = this.state.checked;
+	          checkbox.click();
+	        }
+	
+	        this.activated = false;
+	        this.startX = null;
+	        this.moved = false;
 	      }
 	    }
 	  }, {
@@ -22099,8 +22148,7 @@
 	          onClick: this.handleClick,
 	          onTouchStart: this.handleTouchStart,
 	          onTouchMove: this.handleTouchMove,
-	          onTouchEnd: this.handleTouchEnd,
-	          onTouchCancel: this.handleTouchEnd },
+	          onTouchEnd: this.handleTouchEnd },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'react-toggle-track' },
